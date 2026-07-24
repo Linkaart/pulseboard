@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import AuditLog
+from .models import ActivityLog
 
 
-class AuditLogSerializer(serializers.ModelSerializer):
+class ActivityLogSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AuditLog
-        fields = ["id", "company", "user", "action", "target", "metadata", "created_at"]
+        model = ActivityLog
+        fields = ["id", "user", "action", "entity_type", "entity_id", "created_at"]
         read_only_fields = fields
