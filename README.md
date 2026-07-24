@@ -138,3 +138,43 @@ src/
 ## Auteur
 
 Projet realise dans le cadre d'une formation Concepteur Developpeur d'Applications (CDA).
+
+
+## Installation et lancement en local
+
+### Backend (Django)
+
+```
+cd backend
+python -m venv venv
+venv\Scripts\activate  # Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+L'API est alors accessible sur `http://localhost:8000/api/`.
+
+### Frontend (React + Vite)
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+L'application est alors accessible sur `http://localhost:5173/`.
+
+### Variables d'environnement
+
+| Variable | Description | Exemple |
+|---|---|---|
+| SECRET_KEY | Cle secrete Django | change-me |
+| DEBUG | Mode debug | True |
+| ALLOWED_HOSTS | Hotes autorises | * |
+| DATABASE_URL | Connexion PostgreSQL | postgres://user:pass@localhost:5432/pulseboard |
+
+### Comptes de demonstration
+
+Creer un utilisateur via `createsuperuser`, puis assigner un role (Admin, Manager ou Analyste) depuis l'interface d'administration Django (`/admin/`).
