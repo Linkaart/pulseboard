@@ -1,13 +1,12 @@
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView, TokenRefreshView,
-)
+from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/auth/", include("apps.accounts.urls")),
+    path("api/companies/", include("apps.companies.urls")),
+    path("api/customers/", include("apps.customers.urls")),
+    path("api/audit/", include("apps.audit.urls")),
     path("api/", include("apps.analytics.urls")),
     path("api/exports/", include("apps.exports.urls")),
 ]
