@@ -127,6 +127,31 @@ src/
 - Exports CSV/PDF
 - Composants front cles (KpiCard, FilterBar, DataTable)
 
+## Tests
+
+Le backend Django dispose d'une suite de tests automatises avec pytest et pytest-django.
+
+### Organisation des tests
+
+- `conftest.py` : fixtures partagees (company, team, user, customer, subscription, invoice, api_client, auth_client).
+- `apps/accounts/test_accounts.py` : inscription, connexion JWT, recuperation et mise a jour du profil.
+- `apps/customers/test_customers.py` : CRUD clients, isolation multi-entreprise, filtres et recherche.
+- `apps/analytics/test_analytics.py` : calcul des KPI (MRR, churn, nouveaux clients), permissions `view_kpi`, endpoints dashboard et filtres enregistres.
+- `apps/audit/test_audit.py` : journalisation des actions et isolation des logs par entreprise.
+
+### Lancer les tests
+
+```
+cd backend
+pytest
+```
+
+Pour un rapport de couverture :
+
+```
+pytest --cov=apps --cov-report=term-missing
+```
+
 ## Planning (sprints)
 
 1. Cadrage, MCD/MLD, initialisation back/front, auth JWT
