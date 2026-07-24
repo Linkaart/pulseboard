@@ -13,6 +13,19 @@ class Customer(models.Model):
     segment = models.CharField(max_length=100, blank=True)
     acquisition_channel = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    STATUS_CHOICES = [
+        ("active", "Actif"),
+        ("inactive", "Inactif"),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
+    mrr = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    owner = models.ForeignKey(
+        "accounts.User", null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="owned_customers"
+    )
+    last_activity_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
