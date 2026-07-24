@@ -4,10 +4,11 @@ import apiClient from '../api/client';
 
 interface AuditEntry {
   id: number;
-  actor_email: string;
+  user: number;
   action: string;
-  target: string;
-  timestamp: string;
+  entity_type: string;
+  entity_id: number;
+  created_at: string;
 }
 
 interface PaginatedResponse {
@@ -21,7 +22,7 @@ function AuditLogPage() {
   const { data, isLoading } = useQuery<PaginatedResponse>({
     queryKey: ['audit-log', page],
     queryFn: async () =>
-      (await apiClient.get('/audit/logs/', { params: { page } })).data,
+      (await apiClient.get('/audit/activitylog/', { params: { page } })).data,
   });
 
   return (
@@ -31,10 +32,10 @@ function AuditLogPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actor</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Target</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timestamp</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entity</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -47,11 +48,13 @@ function AuditLogPage() {
             ) : (
               data?.results.map((entry) => (
                 <tr key={entry.id}>
-                  <td className="px-6 py-4 text-sm text-slate-900">{entry.actor_email}</td>
+                  <td className="px-6 py-4 text-sm text-slate-900">{entry.user}</td>
                   <td className="px-6 py-4 text-sm text-gray-500">{entry.action}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{entry.target}</td>
                   <td className="px-6 py-4 text-sm text-gray-500">
-                    {new Date(entry.timestamp).toLocaleString()}
+                    {entry.entity_type} #{entry.entity_id}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    {new Date(entry.created_at).toLocaleString()}
                   </td>
                 </tr>
               ))
